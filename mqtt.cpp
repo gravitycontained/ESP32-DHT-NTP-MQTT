@@ -1,6 +1,7 @@
 #include "mqtt.hpp"
 
 namespace network {
+  
   void messageReceived(String &topic, String &payload) {
     Serial.println("incoming: " + topic + " - " + payload);
 
@@ -10,6 +11,7 @@ namespace network {
     // or push to a queue and handle it in the loop after calling `client.loop()`.
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   void mqttClient::connect() {
     Serial.print("checking WiFi...");
     while (WiFi.status() != WL_CONNECTED) {
@@ -26,6 +28,15 @@ namespace network {
     Serial.println("\nconnected!");
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
+  void mqttClient::setMQTTLabel(String mqttLabel) {
+    this->label = mqttLabel;
+  }
+  String mqttClient::getMQTTLabel() const {
+    return this->label;
+  }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   void mqttClient::setIP(String ip) {
     this->ip = ip;
   }
@@ -33,6 +44,7 @@ namespace network {
     return this->ip;
   }
 
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   void mqttClient::setup(const network::networkInfo& network) {
     Serial.println("mqttClient::setup()");
 
@@ -43,14 +55,20 @@ namespace network {
 
     this->connect();
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   void mqttClient::checkConnection() {
     if (!this->client.connected()) {
       this->connect();
     }
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   void mqttClient::publish(String label, String message) {
     this->client.publish(label, message);
   }
+
+  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - 
   void mqttClient::update() {
     this->client.loop();
   }
