@@ -27,6 +27,9 @@ namespace sensor {
     return this->dht.readTemperature();
   }
   std::pair<float, float> dhtSensor::requestData() {
-    return std::make_pair(this->requestHumidity(), this->requestTemperature());
+    return std::make_pair(
+      this->requestHumidity(),
+      this->requestTemperature()
+    );
   }
 }

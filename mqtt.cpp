@@ -50,7 +50,10 @@ namespace network {
 
     this->setIP(network.mqttIP);
 
-    this->client.begin(this->ip.c_str(), this->wifiClient);
+    this->client.begin(
+      this->ip.c_str(),
+      this->wifiClient
+    );
     this->client.onMessage(messageReceived);
 
     this->connect();
